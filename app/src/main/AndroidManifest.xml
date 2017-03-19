@@ -48,6 +48,9 @@
         <activity android:name=".MainActivity"
                   android:launchMode="singleTask"
             />
+        <activity android:name=".ChoiceCityActivity"
+            android:launchMode="singleTask"
+            />
     </application>
 
 </manifest>

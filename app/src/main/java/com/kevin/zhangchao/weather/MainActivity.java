@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.kevin.zhangchao.weather.utils.CircularAnimUtil;
 import com.kevin.zhangchao.weather.utils.HomePagerAdapter;
 import com.kevin.zhangchao.weather.utils.SharedPreferenceUtil;
 import com.squareup.haha.perflib.Main;
@@ -78,12 +79,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 if (position==1){
                                     mFab.setImageResource(R.drawable.ic_add_24dp);
                                     mFab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this,R.color.colorPrimary)));
-//                                    mFab.setOnClickListener(v -> {
-//                                        Intent intent = new Intent(MainActivity.this, ChoiceCityActivity.class);
-//                                        intent.putExtra(C.MULTI_CHECK, true);
-//                                        CircularAnimUtil.startActivity(MainActivity.this, intent, mFab,
-//                                                R.color.colorPrimary);
-//                                    });
+                                    mFab.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(MainActivity.this, ChoiceCityActivity.class);
+                                            intent.putExtra(C.MULTI_CHECK, true);
+                                            CircularAnimUtil.startActivity(MainActivity.this, intent, mFab,
+                                                    R.color.colorPrimary);
+                                        }
+                                    });
                                 }else{
                                     mFab.setImageResource(R.drawable.ic_favorite);
                                     mFab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(MainActivity.this, R.color.colorAccent)));

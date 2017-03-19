@@ -6,7 +6,11 @@ import android.support.compat.BuildConfig;
 
 import com.kevin.zhangchao.weather.BaseApplication;
 import com.kevin.zhangchao.weather.C;
+import com.kevin.zhangchao.weather.RxUtils;
+import com.kevin.zhangchao.weather.SimpleSubscriber;
+import com.kevin.zhangchao.weather.utils.PLog;
 import com.litesuits.orm.LiteOrm;
+import com.kevin.zhangchao.weather.CityORM;
 
 import rx.Observable;
 
@@ -45,7 +49,7 @@ public class OrmLite {
 //    public static <T> void OrmTest(Class<T> t) {
 //        Observable.from(getInstance().query(t))
 //            .compose(RxUtils.rxSchedulerHelper())
-//            .subscribe(new SimpleSubscriber<T>() {
+//            .subscribe(new SimpleSubscriber<T>(){
 //                @Override
 //                public void onNext(T t) {
 //                    if (t instanceof CityORM) {
