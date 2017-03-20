@@ -39,6 +39,7 @@ class RetrofitSingleton {
     }
 
 
+
     private static class SingletonHolder {
         private static final RetrofitSingleton INSTANCE=new RetrofitSingleton();
     }
@@ -137,5 +138,10 @@ class RetrofitSingleton {
             ToastUtil.showShort("错误: " + t.getMessage());
         }
         PLog.w(t.getMessage());
+    }
+
+
+    public Observable<VersionAPI> fetchVersion() {
+        return sApiService.mVersionAPI(C.API_TOKEN).compose(RxUtils.<VersionAPI>rxSchedulerHelper());
     }
 }

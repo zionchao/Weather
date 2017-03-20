@@ -10,7 +10,7 @@
    <android.support.design.widget.AppBarLayout
        android:id="@+id/app_bar"
        android:layout_width="match_parent"
-       android:layout_height="256dp"
+       android:layout_height="@dimen/app_bar_height"
        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
        >
        <!--由于CollapsingToolbarLayout 的 特点，应用的标题文字在收缩和展开状态是会自动过渡的。如果你想要在展开状态改变标题文字的位置，
@@ -25,6 +25,7 @@
            app:contentScrim="?attr/colorPrimary"
            app:expandedTitleGravity="center_horizontal"
            app:expandedTitleMarginTop="220dp"
+           app:expandedTitleTextAppearance="@style/textToolbarTitle"
            app:layout_scrollFlags="scroll|exitUntilCollapsed"
            >
            <!-- contentScrim 这个属性是设置折叠后Toolbar的颜色-->
@@ -67,6 +68,8 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
+        <include layout="@layout/part_about"/>
+
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
