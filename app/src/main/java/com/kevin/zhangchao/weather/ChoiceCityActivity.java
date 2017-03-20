@@ -1,6 +1,7 @@
 package com.kevin.zhangchao.weather;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -296,5 +297,9 @@ public class ChoiceCityActivity extends AppCompatActivity{
     private void quit() {
         ChoiceCityActivity.this.finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    public static void launch(Context context) {
+        context.startActivity(new Intent(context, ChoiceCityActivity.class));
     }
 }

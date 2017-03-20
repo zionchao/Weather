@@ -27,6 +27,10 @@ import com.squareup.haha.perflib.Main;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -139,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initDrawer() {
         if (mNavView!=null){
             mNavView.setNavigationItemSelectedListener(this);
-//            mNavView.inflateHeaderView(R.layout.nav_header);
+            mNavView.inflateHeaderView(R.layout.nav_header_main);
             ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,mDrawerLayout,
                     R.string.navigation_drawer_open,R.string.navigation_drawer_close);
             mDrawerLayout.addDrawerListener(toggle);
@@ -186,7 +190,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+        RxDrawer.close(mDrawerLayout)
+                .compose(RxUtils.<Void>rxSchedulerHelper(AndroidSchedulers.mainThread()))
+                .subscribe(new SimpleSubscriber<Void>() {
+                    @Override
+                    public void onNext(Void aVoid) {
+                        switch (item.getItemId()) {
+                            case R.id.nav_set:
+                                SettingActivity.launch(MainActivity.this);
+                                break;
+                            case R.id.nav_about:
+                                AboutActivity.launch(MainActivity.this);
+                                break;
+                            case R.id.nav_city:
+                                ChoiceCityActivity.launch(MainActivity.this);
+                                break;
+                            case R.id.nav_multi_cities:
+                                mViewPager.setCurrentItem(1);
+                                break;
+                        }
+                    }
+                });
         return false;
     }
 }
