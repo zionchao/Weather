@@ -250,7 +250,13 @@ public class ChoiceCityActivity extends AppCompatActivity{
                 item.setChecked(true);
             isChecked=item.isChecked();
         }
-        return super.onOptionsItemSelected(item);
+
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

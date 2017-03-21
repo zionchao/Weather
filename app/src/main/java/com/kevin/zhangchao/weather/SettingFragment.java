@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.kevin.zhangchao.weather.component.RxBus;
@@ -78,7 +79,14 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        return false;
+        if (preference==mAnimationOnOff){
+            SharedPreferenceUtil.getInstance().setMainAnim((boolean)newValue);
+        }else if (mNotificationType==preference){
+            SharedPreferenceUtil.getInstance().setNotificationModel(
+                    (boolean)newValue?Notification.FLAG_ONGOING_EVENT:Notification.FLAG_AUTO_CANCEL
+            );
+        }
+        return true;
     }
 
     @Override
@@ -180,6 +188,48 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     }
 
     private void showUpdateDialog() {
+        LayoutInflater inflater= (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogLayout=inflater.inflate(R.layout.update_dialog,null);
+        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity())
+                .setView(dialogLayout);
+        final AlertDialog alertDialog=builder.create();
+        final SeekBar mSeekBar= (SeekBar) dialogLayout.findViewById(R.id.time_seekbar);
+        final TextView tvShowHour= (TextView) dialogLayout.findViewById(R.id.tv_showhour);
+        TextView tvDown= (TextView) dialogLayout.findViewById(R.id.done);
+        mSeekBar.setMax(24);
+        mSeekBar.setProgress(mSharedPreferenceUtil.getAutoUpdate());
+        tvShowHour.setText(String.format("每%s小时",mSeekBar.getProgress()));
+        alertDialog.show();
 
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tvShowHour.setText(String.format("每%s小时",mSeekBar.getProgress()));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        tvDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSharedPreferenceUtil.setAutoUpdate(mSeekBar.getProgress());
+                mChangeUpdate.setSummary(
+                        mSharedPreferenceUtil.getAutoUpdate() == 0 ? "禁止刷新" : "每" + mSharedPreferenceUtil.getAutoUpdate() + "小时更新"
+                );
+                //TODO 不需要先停止再启动吗？
+                getActivity().startService(new Intent(getActivity(),AutoUpdateService.class));
+                alertDialog.dismiss();
+
+            }
+        });
     }
 }

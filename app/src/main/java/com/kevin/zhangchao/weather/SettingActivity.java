@@ -29,4 +29,9 @@ public class SettingActivity extends ToolbarActivity{
     public static void launch(Context context) {
         context.startActivity(new Intent(context, SettingActivity.class));
     }
+
+    @Override
+    public boolean canBack() {
+        return true;
+    }
 }
