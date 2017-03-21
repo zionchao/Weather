@@ -55,7 +55,6 @@ public class AboutActivity extends BaseActivity{
         StatusBarUtil.setImmersiveStatusBar(this);
         StatusBarUtil.setImmersiveStatusBarToolbar(mToolbar,this);
         initView();
-
     }
 
     private void initView() {
