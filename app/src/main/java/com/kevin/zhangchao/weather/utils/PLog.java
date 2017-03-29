@@ -3,8 +3,7 @@ package com.kevin.zhangchao.weather.utils;
 import android.support.compat.BuildConfig;
 import android.util.Log;
 
-
-import com.kevin.zhangchao.weather.BaseApplication;
+import com.kevin.zhangchao.weather.ui.BaseApplication;
 
 import java.io.BufferedWriter;
 import java.io.File;

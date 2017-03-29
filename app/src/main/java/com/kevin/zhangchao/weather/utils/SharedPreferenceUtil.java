@@ -4,7 +4,7 @@ import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.kevin.zhangchao.weather.BaseApplication;
+import com.kevin.zhangchao.weather.ui.BaseApplication;
 
 
 /**
@@ -22,6 +22,7 @@ public class SharedPreferenceUtil {
     public static final String AUTO_UPDATE = "change_update_time"; //自动更新时长
     public static final String NOTIFICATION_MODEL = "notification_model";
     public static final String ANIM_START = "animation_start";
+    public static final String DYA_NIGHT_MODEL = "day_night_model";
 
     public static int ONE_HOUR = 1000 * 60 * 60;
 

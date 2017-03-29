@@ -2,8 +2,7 @@ package com.kevin.zhangchao.weather.utils;
 
 import android.content.Context;
 
-
-import com.kevin.zhangchao.weather.component.OrmLite;
+import com.kevin.zhangchao.weather.databases.OrmLite;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

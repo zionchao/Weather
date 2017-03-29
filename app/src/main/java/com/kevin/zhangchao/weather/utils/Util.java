@@ -15,7 +15,6 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
 
-
 import com.kevin.zhangchao.weather.R;
 
 import java.io.Closeable;

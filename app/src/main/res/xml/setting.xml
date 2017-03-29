@@ -7,6 +7,9 @@
         <CheckBoxPreference
             android:key="animation_start"
             android:title="首页Item动画"/>
+        <SwitchPreference
+            android:key="day_night_model"
+            android:title="夜间模式"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="系统">
         <Preference

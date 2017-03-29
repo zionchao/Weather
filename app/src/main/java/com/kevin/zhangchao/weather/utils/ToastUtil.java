@@ -2,7 +2,7 @@ package com.kevin.zhangchao.weather.utils;
 
 import android.widget.Toast;
 
-import com.kevin.zhangchao.weather.BaseApplication;
+import com.kevin.zhangchao.weather.ui.BaseApplication;
 
 
 /**

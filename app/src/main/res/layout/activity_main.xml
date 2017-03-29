@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
+    android:background="?attr/kevinBackground"
     >
 
     <android.support.design.widget.CoordinatorLayout
@@ -34,18 +35,20 @@
             app:borderWidth="0dp"
             app:layout_anchor="@id/viewPager"
             app:layout_anchorGravity="end|bottom"
-            app:layout_behavior="com.kevin.zhangchao.weather.FloatingActionButtonScrollBehavior"
+            app:layout_behavior="com.kevin.zhangchao.weather.utils.FloatingActionButtonScrollBehavior"
             />
 
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
+        android:background="?attr/kevinBackground"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/activity_main_drawer"
+
         >
 
     </android.support.design.widget.NavigationView>
