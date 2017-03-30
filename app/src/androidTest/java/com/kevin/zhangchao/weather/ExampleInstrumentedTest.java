@@ -3,6 +3,9 @@ package com.kevin.zhangchao.weather;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
+
+import com.kevin.zhangchao.weather.customview.SnowSurfaceView;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

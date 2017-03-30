@@ -18,9 +18,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.kevin.zhangchao.weather.R;
+import com.kevin.zhangchao.weather.customview.SnowSurfaceView;
+import com.kevin.zhangchao.weather.customview.SunView;
 import com.kevin.zhangchao.weather.utils.CircularAnimUtil;
 import com.kevin.zhangchao.weather.utils.Constants;
 import com.kevin.zhangchao.weather.utils.RxDrawer;
@@ -65,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initView() {
+
+        View view=new SunView(this);
+        this.addContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setSupportActionBar(mToolbar);
         HomePagerAdapter mHomePagerAdapter=new HomePagerAdapter(getSupportFragmentManager());
         mHomePagerAdapter.addTab(new MainFragment(),"主页");
