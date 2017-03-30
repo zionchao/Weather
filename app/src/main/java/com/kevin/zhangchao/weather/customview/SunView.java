@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -39,6 +40,7 @@ public class SunView extends View {
     private ArrayList<Sun> sunflake_l=new ArrayList<>();
     private ArrayList<Sun> sunflake_m=new ArrayList<>();
     private ArrayList<Sun> sunflake_s=new ArrayList<>();
+    private Handler handler;
 
     public SunView(Context context) {
         super(context);
@@ -57,6 +59,12 @@ public class SunView extends View {
     }
 
     public void init(Context context){
+
+        handler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+               invalidate();
+            };
+        };
         getViewSize(context);
         Resources resources=getResources();
         bitmap_bg= BitmapFactory.decodeResource(resources, R.mipmap.yjjc_h_a1);
@@ -74,22 +82,27 @@ public class SunView extends View {
     }
 
     private void addRandomSnow() {
-        for (int i=0;i<SUN_COUNT;i++){
+//        for (int i=0;i<SUN_COUNT;i++){
             sunflake_xxl.add(new Sun(
-                    bitmap_suns[4],-10,
-                    50+random.nextFloat()*10,7f,1-random.nextFloat()*2));
+                    bitmap_suns[0],-150,
+                    40,20,1-random.nextFloat()*2));
+
+            run(sunflake_xxl.get(0));
             sunflake_xl.add(new Sun(
-                     bitmap_suns[3],-5,
-                    50+random.nextFloat()*10,5f,1-random.nextFloat()*2
+                     bitmap_suns[3],0,
+                    60,30,1-random.nextFloat()*2
             ));
-            sunflake_m.add(new Sun(bitmap_suns[2], 5, 50+random.nextFloat() * 10, 3f,
+        run(sunflake_xl.get(0));
+            sunflake_m.add(new Sun(bitmap_suns[1],280, 80, 50,
                     1 - random.nextFloat() * 2));
-            sunflake_s.add(new Sun(bitmap_suns[1], 10, 50+random.nextFloat() * 10, 2f,
+        run(sunflake_m.get(0));
+            sunflake_s.add(new Sun(bitmap_suns[2], 140, 130, 40,
                     1 - random.nextFloat() * 2));
-            sunflake_l.add(new Sun(bitmap_suns[0], 15, 50+random.nextFloat() * 10, 2f,
-                    1 - random.nextFloat() * 2));
+        run(sunflake_s.get(0));
+//            sunflake_l.add(new Sun(bitmap_suns[0], 0, 90+random.nextFloat() * 10, 2f,
+//                    1 - random.nextFloat() * 2));
         }
-    }
+//    }
 
 
     private void getViewSize(Context context) {
@@ -109,41 +122,56 @@ public class SunView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        drawView(canvas);
+//        invalidate();
+    }
+
+    private void drawView(Canvas canvas) {
         Paint paint=new Paint();
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         RectF rectF=new RectF(0,0,screenWidth,screenHeight);
         canvas.drawBitmap(bitmap_bg,null,rectF,paint);
         Sun sun=null;
-        for (int i=0;i<SUN_COUNT;i++){
-            sun=sunflake_xxl.get(i);
-            canvas.drawBitmap(sun.bitmap,sun.x,sun.y,paint);
-            moveClode(sun);
-            sun = sunflake_xl.get(i);
-            canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
-            moveClode(sun);
+//        for (int i=0;i<SUN_COUNT;i++){
 
-            sun =sunflake_m.get(i);
-            canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
-            moveClode(sun);
+        sun=sunflake_xxl.get(0);
+        canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
 
-            sun = sunflake_s.get(i);
-            canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
-            moveClode(sun);
+        sun = sunflake_xl.get(0);
+        canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
 
-            sun = sunflake_l.get(i);
-            canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
-            moveClode(sun);
+        sun =sunflake_m.get(0);
+        canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
 
-        }
+        sun = sunflake_s.get(0);
+        canvas.drawBitmap(sun.bitmap, sun.x, sun.y, paint);
 
-        invalidate();
+
+    }
+
+    public void run( final Sun sun){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    moveClode(sun);
+                    handler.sendEmptyMessage(1);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }).start();
     }
 
     private void moveClode(Sun sun) {
-        if (sun.x>screenWidth||sun.y>screenHeight){
+        if (sun.x>screenWidth){
 //            sun.y=0;
-            sun.x=-50;
+            sun.x=-sun.bitmap.getWidth();
         }
         sun.x+=1;
 //        sun.y+=sun.speed;
