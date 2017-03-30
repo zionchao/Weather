@@ -65,10 +65,10 @@ public class SettingActivity extends AppCompatActivity{
        int model= SharedPreferenceUtil.getInstance().getInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,1);
         if (model==1){
             setTheme(R.style.NightTheme);
-            SharedPreferenceUtil.getInstance().putInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,0);
+//            SharedPreferenceUtil.getInstance().putInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,0);
         }else{
             setTheme(R.style.DayTheme);
-            SharedPreferenceUtil.getInstance().putInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,1);
+//            SharedPreferenceUtil.getInstance().putInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,1);
         }
         refreshToolbar();
         refreshStatusBar();

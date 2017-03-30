@@ -16,9 +16,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
@@ -84,7 +86,8 @@ public class SettingFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this,view);
-        ((SettingActivity)getActivity()).setSupportActionBar(toolbar);
+
+
         return view;
 
     }
@@ -92,6 +95,9 @@ public class SettingFragment2 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((SettingActivity)getActivity()).setSupportActionBar(toolbar);
+        ((SettingActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (SharedPreferenceUtil.getInstance().getNotificationModel()!= Notification.FLAG_ONGOING_EVENT){
             mNotificationType.setChecked(false);
         }else{
@@ -105,33 +111,51 @@ public class SettingFragment2 extends Fragment {
        cacheSize.setText(FileSizeUtil.getAutoFileOrFilesSize(BaseApplication.getAppCacheDir() + "/NetCache"));
 
         int model= SharedPreferenceUtil.getInstance().getInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,1);
-        if (model==1){
+        if (model==0){
             mDayNightModel.setChecked(false);
         }else{
             mDayNightModel.setChecked(true);
         }
 
-    }
-
-
-    @OnCheckedChanged({R.id.day_night_model})
-    public void onCheckedChangedClick2(SwitchCompat view){
-        switch (view.getId()){
-            case R.id.day_night_model:
+        mDayNightModel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int model= SharedPreferenceUtil.getInstance().getInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,1);
-                if (model==1){
-                    view.setChecked(false);
-                    SharedPreferenceUtil.getInstance().putInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,0);
-                }else{
-                    view.setChecked(true);
+                if (model==1) {
+                    SharedPreferenceUtil.getInstance().putInt(SharedPreferenceUtil.DYA_NIGHT_MODEL, 0);
+                }
+                else{
                     SharedPreferenceUtil.getInstance().putInt(SharedPreferenceUtil.DYA_NIGHT_MODEL,1);
                 }
 
                 ((SettingActivity)getActivity()).changeTheme();
-                break;
-        }
-    }
+            }
+        });
 
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == android.R.id.home) {
+                    Intent intent=new Intent(getActivity(),MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+    }
 
     @OnCheckedChanged({R.id.animation_start,R.id.notification_model})
    public void onCheckedChangedClick(CheckBox view){
@@ -150,7 +174,7 @@ public class SettingFragment2 extends Fragment {
         }
     }
 
-    @OnClick({R.id.change_icons,R.id.change_update_time,R.id.clear_cache,R.id.toolbar})
+    @OnClick({R.id.change_icons,R.id.change_update_time,R.id.clear_cache})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.change_icons:
